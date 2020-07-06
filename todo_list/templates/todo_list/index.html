@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block menu %}{{ block.super }}
+<div class="row mt-5 equal" data-test="cards">
+
+      <!-- TO DO -->
+      <div class="col-12 col-md-6 cards-bg" data-test="card">
+        <p  style="font-family: 'MV Boli'; font-size: x-large">To Do:</p>
+        {% for task in tasks %}
+        <form method="post" action="{% url 'save_task' task.id %}">
+        {% csrf_token %}
+        <div class="card mb-3" >
+          <div class="card-body container">
+            <div class="row">
+              <div class="col-1">
+                <button type="button" class="close align-right" aria-label="Close">
+                  <a href="{% url 'update_task' task.id %}"><span aria-hidden="true">✓</span></a>
+                </button>
+              </div>
+              <div class="col-9" style="padding: 0">
+                <textarea class="card-text overflow-multiply form-control" rows="1" cols="1" name="task">{{ task.task }}</textarea>
+              </div>
+              <div class="col-1">
+                <input type="submit" class="btn btn-info" value="s">
+              </div>
+              <div class="col-1">
+                <button type="button" class="close align-right" aria-label="Close">
+                  <a href="{% url 'delete_task' task.id %}"><span aria-hidden="true">&times;</span></a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+        {% endfor %}
+
+        <!-- NEW TASK -->
+        <div class="card mb-3">
+          <div class="card-body container">
+            <form action="{% url 'new_task' %}" method="post">
+              {% csrf_token %}
+            <div class="row">
+              <div class="col-10">
+                <textarea class="card-text overflow-multiply form-control" rows="1" name="task"></textarea>
+              </div>
+              <div class="col-2">
+                <button type="submit"  class="btn btn-secondary">Add</button>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- DONE -->
+      <div class="col-12 col-md-6" data-test="card">
+        <p style="font-family: 'MV Boli'; font-size: x-large">Done:</p>
+        {% for task in tasks_done %}
+        <form method="post" action="{% url 'save_task' task.id %}">
+        {% csrf_token %}
+        <div class="card mb-3" >
+          <div class="card-body container">
+            <div class="row">
+              <div class="col-1">
+                <button type="button" class="close align-right" aria-label="Close">
+                  <a href="{% url 'update_task' task.id %}"><span aria-hidden="true" style="color: forestgreen">✓</span></a>
+                </button>
+              </div>
+              <div class="col-9" style="padding: 0">
+                <strike>
+                  <textarea class="card-text overflow-multiply form-control" rows="1" cols="1" name="task">{{ task.task }}</textarea>
+                </strike>
+              </div>
+              <div class="col-1">
+                <input type="submit" class="btn btn-info" value="s">
+              </div>
+              <div class="col-1">
+                <button type="button" class="close align-right" aria-label="Close">
+                  <a href="{% url 'delete_task' task.id %}"><span aria-hidden="true">&times;</span></a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+        {% endfor %}
+
+      </div>
+    </div>
+{% endblock menu %}
